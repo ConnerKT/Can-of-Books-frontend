@@ -1,11 +1,15 @@
-import { Component } from "react";
 
-class Profile extends Component {
+import React from 'react'
 
-  render() {
-    /* TODO: render information about the developers */
-    return <p>Profile page coming soon</p>
-  }
-};
+export default function About() {
+    return (
+        /* TODO: render information about the developers */
+        <div>
+            <p>Profile page coming soon</p>
 
-export default Profile;
+        </div>
+    )
+}
+
+
+
