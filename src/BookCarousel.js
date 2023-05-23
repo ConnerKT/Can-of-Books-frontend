@@ -17,6 +17,7 @@ export default function BookCarousel(props) {
                             <Carousel.Caption>
                                 <h3>{element.title}</h3>
                                 <p>{element.description}</p>
+                                <p>{element.status}</p>
                             </Carousel.Caption>
                         </Carousel.Item>)
 
