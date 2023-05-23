@@ -1,0 +1,14 @@
+/* body{
+    display: flex;
+    justify-content: center;
+} */
+
+.Caroursel-inner img{
+   margin: auto;
+
+}
+
+.NavBar .NavItem{
+    display: flex;
+    justify-content: space-between;
+}

@@ -5,7 +5,8 @@ export default function About() {
     return (
         /* TODO: render information about the developers */
         <div>
-            <p>Profile page coming soon</p>
+            <p>Conner Thompson: A young software developer who is eager to learn more!</p>
+            <p>Jared Plummer: A young software developer who is eager to learn more!</p>
 
         </div>
     )
