@@ -56,7 +56,7 @@ function BestBooks() {
     let url = "http://localhost:3001/books";
     let response = axios.get(url).then((res) => {
       setBooks(res.data);
-      console.log(res);
+      console.log(res.data);
     });
     
     // Update the books state with the fetched data
