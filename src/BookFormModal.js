@@ -2,28 +2,79 @@ import React from "react";
 
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import FormComp from "./FormComp";
+import Form from "react-bootstrap/Form";
 
 function BookFormModal(props) {
+    function handleSubmit(event) {
+        //event.preventDefault()
+        let newBook = {
+            title: props.title,
+            description: props.description,
+            status: props.status
+        }
+        props.setPost(newBook)
+        props.setSubmit(true)
+        
+    }
+ 
+    function title(event) {
+        props.setTitle(event.target.value)
+        //console.log("Title", props.title)
+        handleSubmit()
+    }
+
+    function description(event) {
+        props.setDescription(event.target.value)
+        handleSubmit()
+    }
+
+    function status(event) {
+        props.setStatus(event.target.value)
+        handleSubmit()
+    }
+
 
     return (
         <>
             <Modal show={props.show} onHide={props.closeFunction}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Enter Your Information</Modal.Title>
+                    
+                    <Modal.Title>Add a Book</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <FormComp
-                        status={props.status}
-                        description={props.description}
-                        title={props.title}
-                        setTitle={props.setTitle}
-                        setDescription={props.setDescription}
-                        setStatus={props.setStatus}
-                        setPost={props.setPost}
-                        post={props.post}
-                        setSubmit={props.setSubmit}
+                <Form >
+                <Form.Group className="mb-3" controlId="title">
+                    <Form.Label >Title</Form.Label>
+                    <Form.Control id='title' type="text" placeholder="Enter A Book Title.." onChange={title} />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="description">
+                    <Form.Label>Description</Form.Label>
+                    <Form.Control
+                        type="text"
+                        placeholder="Enter the Description..."
+                        onChange={description}
                     />
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>Status</Form.Label>
+                    <Form.Select aria-label="Default select example" onChange={status}>
+                        <option>Choose a Status</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Ongoing">Ongoing</option>
+                        <option value="Hiatus">Hiatus</option>
+                        <option value="Discontinued">Discontinued</option>
+                        <option value="Draft">Draft</option>
+                        <option value="Published">Published</option>
+                        <option value="Unpublished">Unpublished</option>
+                        <option value="Banned">Banned</option>
+
+                    </Form.Select>
+                </Form.Group>
+                <Button onClick={props.postBooks} variant="primary" type="submit">
+                    Submit
+                </Button>
+            </Form>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={props.closeFunction}>
