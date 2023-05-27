@@ -14,20 +14,20 @@ export default function BookCarousel(props) {
         <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
             <div style={{ width: '600px' }}>
 
-                <Carousel fade>
+                <Carousel fade >
                     {props.books.map(element => {
                         return (
                             <Carousel.Item>
                                 <img
-                                    src={`https://dummyimage.com/600`}
+                                    src={`https://innovating.capital/wp-content/uploads/2021/05/placeholder-image-dark.jpg`}
                                     alt={element.title}
                                 />
-                                <Carousel.Caption>
+                                <Carousel.Caption style={{ textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)' }}>
                                     <h3>{element.title}</h3>
                                     <p>{element.description}</p>
                                     <p>{element.status}</p>
-                                    <Button onClick={() => { deleteButton(element._id) }} type="submit" variant="outline-danger">Delete This Book</Button>
-                                    <Button onClick={(e) => {
+                                    <Button style={{ boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px' }}onClick={() => { deleteButton(element._id) }} type="submit" variant="outline-danger">Delete This Book</Button>
+                                    <Button style={{ boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px' }}onClick={(e) => {
                                         e.preventDefault()
                                         props.setCurrentId(element._id)
                                         props.handleUpdateShow()

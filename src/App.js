@@ -16,7 +16,7 @@ function App() {
         return (
             <>
                 <Router>
-                    <Header />
+                    <Header  style={{ boxShadow: '0 0 13px rgb(0, 0, 0)' }} />
                     <Routes>
                         <Route
                             exact path="/"
@@ -30,7 +30,8 @@ function App() {
                         >
                         </Route>
                     </Routes>
-                    <Footer />
+                    <br></br>
+                    <Footer/>
                 </Router>
             </>
         )

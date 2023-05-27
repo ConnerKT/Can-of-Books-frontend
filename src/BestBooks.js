@@ -72,7 +72,7 @@ function BestBooks() {
 
     return (
         <>
-            <h2>My Essential Lifelong Learning &amp; Formation Shelf</h2>
+            <h2 style={{padding: '20px',display: 'flex', justifyContent: 'center', margin: '0 auto' }}>My Book List</h2>
 
             {books.length !== 0 ? (
                 <BookCarousel
@@ -123,7 +123,8 @@ function BestBooks() {
                     showFunction={handleUpdateShow}
                     show={showUpdate}
                 />
-                <Button onClick={formControl} variant="outline-primary">Add Book!</Button>{' '}
+                <br></br>
+                <Button style={{ boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px', display: 'flex', justifyContent: 'center', margin: '0 auto' }} onClick={formControl} variant="outline-primary">Add Book!</Button>{' '}
             </div>
         </>
     );
