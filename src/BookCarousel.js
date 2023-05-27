@@ -9,13 +9,7 @@ export default function BookCarousel(props) {
         await axios.delete(`http://localhost:3001/books/${id}`)
         window.location.reload()
     }
-    async function editButton(id) {
-       
-
-        await axios.put(`http://localhost:3001/books/${id}`,props.post)
-       
-        
-    }
+  
     return (
         <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
             <div style={{ width: '600px' }}>
@@ -33,11 +27,11 @@ export default function BookCarousel(props) {
                                 <p>{element.description}</p>
                                 <p>{element.status}</p>
                                 <Button onClick={ () => { deleteButton(element._id) }} type="submit" variant="outline-danger">Delete This Book</Button>
-                                <Button onClick={() => {
-                                    // e.preventDefault()
-
+                                <Button onClick={(e) => {
+                                    e.preventDefault()
+                                    props.setCurrentId(element._id)
                                     props.showFunction(true)
-                                    editButton(element._id)
+                                    
                                 }} type="submit" variant="outline-secondary">Edit this Book</Button>
                             </Carousel.Caption>
                         </Carousel.Item>)

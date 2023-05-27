@@ -3,6 +3,7 @@ import axios from "axios";
 import BookCarousel from "./BookCarousel";
 import Button from 'react-bootstrap/Button';
 import BookFormModal from "./BookFormModal";
+import UpdateForm from "./UpdateForm";
 
 function BestBooks() {
     const [books, setBooks] = useState([]);
@@ -19,9 +20,16 @@ function BestBooks() {
 
 
     const [show, setShow] = useState(false);
-
+    
+    const [showUpdate, setShowUpdate] = useState(false);
+    const [currentId, setCurrentId] = useState('')
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    
+    const handleUpdateShow = () => setShowUpdate(true);
+    const handleUpdateClose = () => setShowUpdate(false);
+    
+    
 
     function formControl(event) {
         event.preventDefault();
@@ -70,6 +78,7 @@ function BestBooks() {
 
             {books.length !== 0 ? (
                 <BookCarousel
+                    setCurrentId={setCurrentId}
                     showFunction={handleShow}
                     post={post}
                     setPost={setPost}
@@ -97,6 +106,20 @@ function BestBooks() {
                     showFunction={handleShow}
                     show={show}
                     closeFunction={handleClose}
+                />
+                <UpdateForm
+                    currentId={currentId}
+                    handleClose={handleUpdateClose}
+                    setSubmit={setSubmit}
+                    title={title}
+                    description={description}
+                    status={status}
+                    setTitle={setTitle}
+                    setDescription={setDescription}
+                    setStatus={setStatus}
+                    setPost={setPost}
+                    showFunction={handleUpdateShow}
+                    show={showUpdate}
                 />
                 <Button onClick={formControl} variant="outline-primary">Add Book!</Button>{' '}
             </div>
