@@ -7,12 +7,15 @@ export default function UpdateForm(props) {
 
     function title(event) {
         props.setTitle(event.target.value)
+        handleSubmit()
     }
     function description(event) {
         props.setDescription(event.target.value)
+        handleSubmit()
     }
     function status(event) {
         props.setStatus(event.target.value)
+        handleSubmit()
     }
     function handleSubmit(event) {
         props.setPost({
@@ -21,12 +24,11 @@ export default function UpdateForm(props) {
             status: props.status
         })
       
-        
+        console.log(props.post)
 
     }
 
     async function editButton(id) {
-
         await axios.put(`http://localhost:3001/books/${id}`,props.post)
     }
     return (

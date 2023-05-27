@@ -8,21 +8,23 @@ import UpdateForm from "./UpdateForm";
 function BestBooks() {
     const [books, setBooks] = useState([]);
     // Setting the state for our Post, so we can get it from a form and send it to our backend
-    const [post, setPost] = useState({
-        title: '',
-        description: '',
-        status: ''
-    })
     const [submit, setSubmit] = useState(false)
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [status, setStatus] = useState('');
+    
+    const [post, setPost] = useState({
+        title: title,
+        description: description,
+        status: status
+    })
 
 
     const [show, setShow] = useState(false);
     
     const [showUpdate, setShowUpdate] = useState(false);
     const [currentId, setCurrentId] = useState('')
+    
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     
@@ -33,24 +35,20 @@ function BestBooks() {
 
     function formControl(event) {
         event.preventDefault();
-        // setPost({
-        //     title:'Horton Hears A Who',
-        //     description:'Horton Hears A Who is about an elephant named Horton who has a flower that contains a whole civilization in it, and its up to horton to save it!',
-        //     status:'Certified Hood Classic'
-        // })
         handleShow();
-
-    }
-    if (submit === true) {
-        postBooks();
-        setSubmit(false)
     }
 
-    function postBooks() {
-        axios
-            .post('http://localhost:3001/books', post)
+    // if (submit === true) {
+    //     postBooks();
+    //     setSubmit(false)
+    // }
+
+    function postBooks(event) {
+        //event.preventDefault()
+        axios.post('http://localhost:3001/books', post)
             .then((response) => {
                 // Handle the successful response here, if needed
+                
                 console.log('Post request successful:', response);
             })
             .catch((error) => {
@@ -82,6 +80,7 @@ function BestBooks() {
                     showFunction={handleShow}
                     post={post}
                     setPost={setPost}
+                    handleUpdateShow={handleUpdateShow}
                     books={books}
                 />
             ) : (
@@ -94,6 +93,7 @@ function BestBooks() {
             )}
             <div>
                 <BookFormModal
+                    postBooks={postBooks}
                     setSubmit={setSubmit}
                     submit={submit}
                     title={title}
@@ -103,11 +103,13 @@ function BestBooks() {
                     setDescription={setDescription}
                     setStatus={setStatus}
                     setPost={setPost}
+                    post={post}
                     showFunction={handleShow}
                     show={show}
                     closeFunction={handleClose}
                 />
                 <UpdateForm
+                    post={post}
                     currentId={currentId}
                     handleClose={handleUpdateClose}
                     setSubmit={setSubmit}
