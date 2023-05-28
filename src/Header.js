@@ -1,12 +1,15 @@
 import React from 'react';
 import Nav from 'react-bootstrap/Nav'
-import { Navbar, NavItem } from 'react-bootstrap';
+import { Navbar, NavItem, Button } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import logo from './assets/logo.png'
-
+import { useAuth0 } from "@auth0/auth0-react";
 
 
 export default function Header() {
+    const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
+    
+    
     return (
         <div style={{color:'white'}}>
             <Navbar style={{ display:'flex', justifyContent: 'space-evenly' }} collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -21,7 +24,12 @@ export default function Header() {
            <Nav  className="me-auto">
              <NavItem style={{'color':'white'}}><Link to="/" className="nav-link">Home</Link></NavItem>
                 {/* PLACEHOLDER: render a navigation link to the about page */}
-                <NavItem><Link to="/about" className="nav-link">About</Link></NavItem>
+                    <NavItem><Link to="/about" className="nav-link">About</Link></NavItem>
+                    
+                    {isAuthenticated === false ? <button onClick={() => { loginWithRedirect() }}>Login</button> :
+                    <button onClick={() => { logout() }}>Logout</button>
+                }
+                    
            </Nav>
                 
             </Navbar>
