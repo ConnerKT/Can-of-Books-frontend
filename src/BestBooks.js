@@ -7,7 +7,7 @@ import UpdateForm from "./UpdateForm";
 import { useAuth0 } from "@auth0/auth0-react";
 
 function BestBooks() {
-    const { getAccessTokenSilently } = useAuth0();
+    const { getAccessTokenSilently} = useAuth0();
     const [books, setBooks] = useState([]);
     // Setting the state for our Post, so we can get it from a form and send it to our backend
     const [submit, setSubmit] = useState(false)
