@@ -1,22 +1,10 @@
-import React from "react";
-
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+import React from 'react'
 import Form from "react-bootstrap/Form";
-
-function BookFormModal(props) {
-
-    function handleSubmit() {
-        props.setPost({
-            title: props.title,
-            description: props.description,
-            status: props.status
-        })
-        
-        //props.setSubmit(true)
-
-    }
-
+import Button from 'react-bootstrap/Button'
+import { Modal } from 'react-bootstrap';
+import axios from 'axios';
+export default function UpdateForm(props) {
+    
     function title(event) {
         props.setTitle(event.target.value);
         handleSubmit(); // Call handleSubmit after updating the state
@@ -30,38 +18,54 @@ function BookFormModal(props) {
     function status(event) {
         props.setStatus(event.target.value);
         handleSubmit(); // Call handleSubmit after updating the state
-        console.log("status", props.status)
     }
 
+    function handleSubmit(event) {
+        props.setPost({
+            title: props.title,
+            description: props.description,
+            status: props.status
+        })
 
+        //console.log(props.post)
 
+    }
+
+    async function editButton(id) {
+        await axios.put(`http://localhost:3001/books/${id}`, props.post)
+            .then(res => {
+                props.setBooks(res.data)
+                console.log("PUT response", res)
+            })
+        props.handleClose(false)
+    }
     return (
-        <>
-            <Modal show={props.show} onHide={props.closeFunction}>
+        <div>
+            <Modal show={props.show} onHide={props.handleClose} animation={true}>
                 <Modal.Header closeButton>
-
-                    <Modal.Title>Add a Book</Modal.Title>
+                    <Modal.Title>Edit A Book!</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form >
-                        <Form.Group className="mb-3" controlid="title">
+                    <Form onSubmit={handleSubmit}>
+                    
+                        <Form.Group className="mb-3" controlId="title">
                             <Form.Label >Title</Form.Label>
-                            <Form.Control controlid='titleControl' type="text" placeholder="Enter A Book Title.." onChange={title} />
+                            <Form.Control type="text" placeholder="Enter A Book Title.." onChange={title} />
                         </Form.Group>
 
-                        <Form.Group className="mb-3" controlid="description">
+                        <Form.Group className="mb-3" controlId="description">
                             <Form.Label>Description</Form.Label>
                             <Form.Control
-                                controlid="descriptionControl"
                                 type="text"
                                 placeholder="Enter the Description..."
                                 onChange={description}
                             />
                         </Form.Group>
-                        <Form.Group className="mb-3" controlid="status">
+
+                        <Form.Group>
                             <Form.Label>Status</Form.Label>
-                            <Form.Select onChange={status} controlid="statusSelect" aria-label="Default select example" >
-                                <option value=" ">Choose a Status</option>
+                            <Form.Select aria-label="Default select example" onChange={status}>
+                                <option>Choose a Status</option>
                                 <option value="Completed">Completed</option>
                                 <option value="Ongoing">Ongoing</option>
                                 <option value="Hiatus">Hiatus</option>
@@ -73,19 +77,15 @@ function BookFormModal(props) {
 
                             </Form.Select>
                         </Form.Group>
-                        <Button onClick={() => { props.postBooks(); props.closeFunction() }} variant="primary" >
+
+                        <Button onClick={() => editButton(props.currentId)} variant="primary" >
                             Submit
                         </Button>
+
                     </Form>
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={props.closeFunction}>
-                        Close
-                    </Button>
-                </Modal.Footer>
             </Modal>
-        </>
-    );
+        </div>
+    )
 }
 
-export default BookFormModal;

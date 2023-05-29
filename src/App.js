@@ -10,17 +10,20 @@ import {
     Routes,
     Route
 } from "react-router-dom";
-
+import { useAuth0 } from "@auth0/auth0-react";
+import Welcome from './Welcome';
 function App() {
+    const { isAuthenticated } = useAuth0();
 
         return (
             <>
+               
                 <Router>
-                    <Header />
+                    <Header  style={{ boxShadow: '0 0 13px rgb(0, 0, 0)' }} />
                     <Routes>
                         <Route
                             exact path="/"
-                            element={<BestBooks />}
+                            element={ isAuthenticated ? <BestBooks /> : <Welcome/>}
                         >
                         </Route>
                         {/* PLACEHOLDER: add a route with a path of '/about' that renders the `About` component */}
@@ -30,7 +33,8 @@ function App() {
                         >
                         </Route>
                     </Routes>
-                    <Footer />
+                    <br></br>
+                    <Footer/>
                 </Router>
             </>
         )

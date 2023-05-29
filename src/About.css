@@ -1,0 +1,29 @@
+#jaredAbout,
+#connerAbout {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  padding: 20px;
+  height: 600px; /* Adjust the height value as needed */
+  font-family: 'Fira Sans', sans-serif;
+  font-size: 40px;
+}
+
+.personalPhotos {
+  height: 100%; /* Set the height of the images to 100% of the container height */
+  width: auto; /* Let the width adjust automatically to maintain the aspect ratio */
+  border-radius: 5%;
+}
+
+#aboutContainer p {
+  padding-left: 50px;
+}
+
+.socialMedia {
+  width: 10vw;
+}
+.socialMedia:hover{
+    cursor:pointer;
+    /* box-shadow: 0 0 13px rgb(0 0 0); */
+    border-radius: 20%;
+    transform: scale(1.1); 
+}

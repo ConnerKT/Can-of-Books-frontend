@@ -1,14 +1,28 @@
-/* body{
-    display: flex;
-    justify-content: center;
-} */
-
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+.Footer {
+   position: sticky;
+    bottom: 0;
+    background-color: #f8f9fa;
+    padding: 10px;
+    text-align: center;
+  }
+main {
+  flex: 1;
+}
 .Caroursel-inner img{
    margin: auto;
 
 }
-
-.NavBar .NavItem{
+.Nav .NavItem{
     display: flex;
     justify-content: space-between;
+    color: white;
+}
+body{
+    background-color: #9DB2BF;
 }
