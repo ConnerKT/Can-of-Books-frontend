@@ -4,41 +4,50 @@ import Button from 'react-bootstrap/Button'
 import { Modal } from 'react-bootstrap';
 import axios from 'axios';
 export default function UpdateForm(props) {
-
+    
     function title(event) {
-        props.setTitle(event.target.value)
-        handleSubmit()
+        props.setTitle(event.target.value);
+        handleSubmit(); // Call handleSubmit after updating the state
     }
+
     function description(event) {
-        props.setDescription(event.target.value)
-        handleSubmit()
+        props.setDescription(event.target.value);
+        handleSubmit(); // Call handleSubmit after updating the state
     }
+
     function status(event) {
-        props.setStatus(event.target.value)
-        handleSubmit()
+        props.setStatus(event.target.value);
+        handleSubmit(); // Call handleSubmit after updating the state
     }
+
     function handleSubmit(event) {
         props.setPost({
             title: props.title,
             description: props.description,
             status: props.status
         })
-      
-        console.log(props.post)
+
+        //console.log(props.post)
 
     }
 
     async function editButton(id) {
-        await axios.put(`http://localhost:3001/books/${id}`,props.post)
+        await axios.put(`http://localhost:3001/books/${id}`, props.post)
+            .then(res => {
+                props.setBooks(res.data)
+                console.log("PUT response", res)
+            })
+        props.handleClose(false)
     }
     return (
         <div>
-            <Modal show={props.show} onHide={props.handleClose} animation={false}>
+            <Modal show={props.show} onHide={props.handleClose} animation={true}>
                 <Modal.Header closeButton>
                     <Modal.Title>Edit A Book!</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
+                    
                         <Form.Group className="mb-3" controlId="title">
                             <Form.Label >Title</Form.Label>
                             <Form.Control type="text" placeholder="Enter A Book Title.." onChange={title} />
@@ -52,6 +61,7 @@ export default function UpdateForm(props) {
                                 onChange={description}
                             />
                         </Form.Group>
+
                         <Form.Group>
                             <Form.Label>Status</Form.Label>
                             <Form.Select aria-label="Default select example" onChange={status}>
@@ -67,9 +77,11 @@ export default function UpdateForm(props) {
 
                             </Form.Select>
                         </Form.Group>
-                        <Button onClick={()=> editButton(props.currentId)} variant="primary" type="submit">
+
+                        <Button onClick={() => editButton(props.currentId)} variant="primary" >
                             Submit
                         </Button>
+
                     </Form>
                 </Modal.Body>
             </Modal>
