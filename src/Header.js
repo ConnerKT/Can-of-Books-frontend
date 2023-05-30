@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import logo from './assets/logo.png'
 import { useAuth0 } from "@auth0/auth0-react";
 
-
+import Profile from './Profile';
 export default function Header() {
     const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
 
@@ -25,6 +25,11 @@ export default function Header() {
                     <NavItem style={{ 'color': 'white' }}><Link to="/" className="nav-link">Home</Link></NavItem>
                     {/* PLACEHOLDER: render a navigation link to the about page */}
                     <NavItem><Link to="/about" className="nav-link">About</Link></NavItem>
+                    <NavItem>
+                        {isAuthenticated ?
+                            <Link to="/profile" className="nav-link">Profile</Link> :
+                            <div></div>}
+                    </NavItem>
 
                     {isAuthenticated === false ? <Button onClick={() => { loginWithRedirect() }}>Login</Button> :
                         <Button onClick={() => { logout() }}>Logout</Button>
