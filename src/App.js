@@ -16,36 +16,36 @@ import Profile from './Profile';
 function App() {
     const { isAuthenticated } = useAuth0();
 
-        return (
-            <>
-               
-                <Router>
-                    <Header  style={{ boxShadow: '0 0 13px rgb(0, 0, 0)' }} />
-                    <Routes>
-                        <Route
-                            exact path="/"
-                            element={ isAuthenticated ? <BestBooks /> : <Welcome/>}
-                        >
-                        </Route>
-                        {/* PLACEHOLDER: add a route with a path of '/about' that renders the `About` component */}
-                        <Route
-                            exact path="/about"
-                            element={<About />}
-                        >
-                        </Route>
+    return (
+        <>
+
+            <Router>
+                <Header style={{ boxShadow: '0 0 13px rgb(0, 0, 0)' }} />
+                <Routes>
+                    <Route
+                        exact path="/"
+                        element={isAuthenticated ? <BestBooks /> : <Welcome />}
+                    >
+                    </Route>
+                    {/* PLACEHOLDER: add a route with a path of '/about' that renders the `About` component */}
+                    <Route
+                        exact path="/about"
+                        element={<About />}
+                    >
+                    </Route>
                     <Route
                         exact path="/profile"
-                        element={ isAuthenticated ? <Profile /> : <div></div>}
-                        >
-                        </Route>
-                    </Routes>
-                    
-                    <br></br>
-                    <Footer/>
-                </Router>
-            </>
-        )
-    
+                        element={isAuthenticated ? <Profile /> : <div></div>}
+                    >
+                    </Route>
+                </Routes>
+
+                <br></br>
+                <Footer />
+            </Router>
+        </>
+    )
+
 }
 
 export default App;

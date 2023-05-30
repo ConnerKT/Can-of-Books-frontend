@@ -19,7 +19,8 @@ function BestBooks() {
     const [post, setPost] = useState({
         title: '',
         description: '',
-        status: ''
+        status: '',
+        
     })
 
     //... rest of your code
@@ -36,7 +37,7 @@ function BestBooks() {
     const handleShow = () => setShow(true);
 
     const handleUpdateShow = () => setShowUpdate(true);
-    const handleUpdateClose = () => setShowUpdate(false);
+    //const handleUpdateClose = () => setShowUpdate(false);
 
 
 
@@ -49,6 +50,7 @@ function BestBooks() {
     async function postBooks() {
         //event.preventDefault()
         const accessToken = await getAccessTokenSilently();
+        console.log(accessToken)
         const headers = {
             Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'application/json',
@@ -73,14 +75,24 @@ function BestBooks() {
 
     useEffect(() => {
         // TODO: Make a GET request to your API to fetch all the books from the database
-        let url = "http://localhost:3001/books";
-        let response = axios.get(url).then((res) => {
-            setBooks(res.data);
-            console.log(res.data);
-        });
+        const accessToken = getAccessTokenSilently();
+        accessToken.then(res => {
+            const headers = {
+                Authorization: `Bearer ${res}`,
+                'Content-Type': 'application/json',
+            }
+            
+            
+            let url = "http://localhost:3001/books";
+            axios.get(url, { headers })
+                .then((res) => {
+                setBooks(res.data);
+                console.log(res.data);
+            });
+        })
 
         // Update the books state with the fetched data
-    }, []);
+    }, [getAccessTokenSilently]);
 
     // TODO: Render all the books in a Carousel
 
