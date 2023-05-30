@@ -7,7 +7,7 @@ import UpdateForm from "./UpdateForm";
 import { useAuth0 } from "@auth0/auth0-react";
 
 function BestBooks() {
-    const { getAccessTokenSilently} = useAuth0();
+    const { getAccessTokenSilently } = useAuth0();
     const [books, setBooks] = useState([]);
     // Setting the state for our Post, so we can get it from a form and send it to our backend
     const [submit, setSubmit] = useState(false)
@@ -15,11 +15,16 @@ function BestBooks() {
     const [description, setDescription] = useState('');
     const [status, setStatus] = useState('');
 
+    //... rest of your code
     const [post, setPost] = useState({
-        title: title,
-        description: description,
-        status: status
+        title: '',
+        description: '',
+        status: ''
     })
+
+    //... rest of your code
+
+
 
 
     const [show, setShow] = useState(false);
@@ -48,18 +53,22 @@ function BestBooks() {
             Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'application/json',
         }
-        //console.log("accessToken",accessToken)
-        axios.post('http://localhost:3001/books', post, { headers })
-            .then((response) => {
-                // Handle the successful response here, if needed
-                setBooks([...books, response.data])
+        try {
+            //console.log("accessToken",accessToken)
+            let response = await axios.post('http://localhost:3001/books', post, { headers })
 
-                console.log('Post request successful:', books);
-            })
-            .catch((error) => {
-                // Handle the error here
-                console.error('Error while making post request:', error);
-            });
+            // Handle the successful response here, if needed
+            setBooks([...books, response.data])
+            console.log(post)
+            console.log('Post request successful:', books);
+
+        } catch (error) {
+
+
+            // Handle the error here
+            console.error('Error while making post request:', error);
+
+        }
     }
 
     useEffect(() => {
@@ -81,6 +90,8 @@ function BestBooks() {
 
             {books.length !== 0 ? (
                 <BookCarousel
+                    currentId={currentId}
+                    key={"BookCarousel"}
                     setCurrentId={setCurrentId}
                     showFunction={handleShow}
                     post={post}
@@ -99,6 +110,7 @@ function BestBooks() {
             )}
             <div>
                 <BookFormModal
+                    currentId={currentId}
                     postBooks={postBooks}
                     setSubmit={setSubmit}
                     submit={submit}
@@ -117,7 +129,7 @@ function BestBooks() {
                 <UpdateForm
                     post={post}
                     currentId={currentId}
-                    handleClose={handleUpdateClose}
+                    setShowUpdate={setShowUpdate}
                     setSubmit={setSubmit}
                     title={title}
                     description={description}
@@ -127,7 +139,7 @@ function BestBooks() {
                     setStatus={setStatus}
                     setPost={setPost}
                     showFunction={handleUpdateShow}
-                    show={showUpdate}
+                    showUpdate={showUpdate}
                     setBooks={setBooks}
                 />
                 <br></br>

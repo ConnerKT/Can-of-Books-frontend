@@ -34,6 +34,7 @@ export default function BookCarousel(props) {
                                     <Button style={{ boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px' }}onClick={(e) => {
                                         e.preventDefault()
                                         props.setCurrentId(element._id)
+                                        console.log(props.currentId)
                                         props.handleUpdateShow()
 
                                     }}  variant="outline-secondary">Edit this Book</Button>
