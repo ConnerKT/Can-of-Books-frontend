@@ -12,6 +12,7 @@ import {
 } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import Welcome from './Welcome';
+import Profile from './Profile';
 function App() {
     const { isAuthenticated } = useAuth0();
 
@@ -32,7 +33,13 @@ function App() {
                             element={<About />}
                         >
                         </Route>
+                    <Route
+                        exact path="/profile"
+                        element={ isAuthenticated ? <Profile /> : <div></div>}
+                        >
+                        </Route>
                     </Routes>
+                    
                     <br></br>
                     <Footer/>
                 </Router>
