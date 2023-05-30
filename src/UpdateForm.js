@@ -3,9 +3,11 @@ import Form from "react-bootstrap/Form";
 import Button from 'react-bootstrap/Button'
 import { Modal } from 'react-bootstrap';
 import axios from 'axios';
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function UpdateForm(props) {
-    
+    const { getAccessTokenSilently } = useAuth0();
+
     function title(event) {
         props.setPost({ ...props.post, title: event.target.value });
     }
@@ -19,9 +21,15 @@ export default function UpdateForm(props) {
     }
     async function handleSubmit(event) {
         event.preventDefault()
+        const accessToken = await getAccessTokenSilently();
+        console.log(accessToken)
+        const headers = {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+        }
 
         try {
-            let response = await axios.put(`http://localhost:3001/books/${props.currentId}`, props.post)
+            let response = await axios.put(`http://localhost:3001/books/${props.currentId}`, props.post, {headers})
 
             props.setBooks(response.data)
             console.log("PUT response", response.data)
