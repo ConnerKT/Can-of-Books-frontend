@@ -45,7 +45,7 @@ function BestBooks() {
         //event.preventDefault()
         const accessToken = await getAccessTokenSilently();
         const headers = {
-            Authorization: `Bearer ${accessToken}`,
+            authorization: `Bearer ${accessToken}`,
             'Content-Type': 'application/json',
         }
         //console.log("accessToken",accessToken)
