@@ -7,7 +7,7 @@ import UpdateForm from "./UpdateForm";
 import { useAuth0 } from "@auth0/auth0-react";
 
 function BestBooks() {
-    const { getAccessTokenSilently } = useAuth0();
+    const { user, getAccessTokenSilently, isAuthenticated } = useAuth0();
     const [books, setBooks] = useState([]);
     // Setting the state for our Post, so we can get it from a form and send it to our backend
     const [submit, setSubmit] = useState(false)
@@ -20,7 +20,7 @@ function BestBooks() {
         title: '',
         description: '',
         status: '',
-        
+
     })
 
     //... rest of your code
@@ -49,51 +49,82 @@ function BestBooks() {
 
     async function postBooks() {
         //event.preventDefault()
-        const accessToken = await getAccessTokenSilently();
-        console.log(accessToken)
-        const headers = {
-            Authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'application/json',
-        }
-        try {
-            //console.log("accessToken",accessToken)
-            let response = await axios.post('http://localhost:3001/books', post, { headers })
+            const token = await getAccessTokenSilently();
+            console.log(token)
+          
+            try {
+                //console.log("accessToken",accessToken)
+                let url = 'http://localhost:3001/books'
+                let response = await axios.post(url, post,{ headers: { authorization: `Bearer ${token}`} })
 
-            // Handle the successful response here, if needed
-            setBooks([...books, response.data])
-            console.log(post)
-            console.log('Post request successful:', books);
+                // Handle the successful response here, if needed
+                setBooks([...books, response.data])
+                console.log(post)
+                console.log('Post request successful:', books);
 
-        } catch (error) {
+            } catch (error) {
 
 
-            // Handle the error here
-            console.error('Error while making post request:', error);
+                // Handle the error here
+                console.error('Error while making post request:', error);
 
-        }
+            }
+        
     }
 
-    useEffect(() => {
-        // TODO: Make a GET request to your API to fetch all the books from the database
-        const accessToken = getAccessTokenSilently();
-        accessToken.then(res => {
-            const headers = {
-                Authorization: `Bearer ${res}`,
-                'Content-Type': 'application/json',
+    
+        async function fetchUser() {
+            if (isAuthenticated) {
+                try {
+                    const token = await getAccessTokenSilently();
+                    isAuthenticated && console.log(token)
+                    let url = "http://localhost:3001/test";
+                    
+                    axios.get(url, { headers:  { 
+                        authorization: `Bearer ${token}`
+                        
+                    } })
+                        .then((res) => {
+                            
+                            console.log(res.data);
+                        })
+                        .catch((err) => {
+                            console.error('Error fetching books:', err);
+                        });
+                } catch (err) {
+                    console.error('Error getting access token:', err);
+                }
             }
-            
-            
-            let url = "http://localhost:3001/books";
-            axios.get(url, { headers })
-                .then((res) => {
-                setBooks(res.data);
-                console.log(res.data);
-            });
-        })
+        }
+      
 
-        // Update the books state with the fetched data
+    useEffect(() => {
+        async function fetchData() {
+           
+                try {
+                    const token = await getAccessTokenSilently();
+                    
+                    let url = "http://localhost:3001/books";
+                    
+                    axios.get(url, { headers: { 
+                        authorization: `Bearer ${token}`
+                        
+                    } })
+                        .then((res) => {
+                            setBooks(res.data);
+                            console.log(res.data);
+                        })
+                        .catch((err) => {
+                            console.error('Error fetching books:', err);
+                        });
+                } catch (err) {
+                    console.error('Error getting access token:', err);
+                }
+            }
+        
+        fetchData();
     }, [getAccessTokenSilently]);
-
+    
     // TODO: Render all the books in a Carousel
 
     return (
@@ -156,6 +187,7 @@ function BestBooks() {
                 />
                 <br></br>
                 <Button style={{ boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px', display: 'flex', justifyContent: 'center', margin: '0 auto' }} onClick={formControl} variant="outline-primary">Add Book!</Button>
+                <button onClick={fetchUser}></button>
             </div>
         </>
     );

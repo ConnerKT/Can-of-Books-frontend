@@ -1,11 +1,12 @@
 import React from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 
 function BookFormModal(props) {
-
+    const { isAuthenticated } = useAuth0();
     function title(event) {
         props.setPost({ ...props.post, title: event.target.value });
     }
@@ -19,7 +20,9 @@ function BookFormModal(props) {
     }
     function handleSubmit(event) {
         event.preventDefault();
-        props.postBooks();
+        if (isAuthenticated) {
+            props.postBooks();
+        }
         props.closeFunction(false);
         console.log(props.post)
     }

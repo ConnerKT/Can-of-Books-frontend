@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useAuth0 } from "@auth0/auth0-react";
 
 export default function UpdateForm(props) {
-    const { getAccessTokenSilently } = useAuth0();
+    const { getAccessTokenSilently, isAuthenticated } = useAuth0();
 
     function title(event) {
         props.setPost({ ...props.post, title: event.target.value });
@@ -21,23 +21,22 @@ export default function UpdateForm(props) {
     }
     async function handleSubmit(event) {
         event.preventDefault()
-        const accessToken = await getAccessTokenSilently();
-        console.log(accessToken)
-        const headers = {
-            Authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'application/json',
-        }
+        if (isAuthenticated) {
+            const token = await getAccessTokenSilently();
 
-        try {
-            let response = await axios.put(`http://localhost:3001/books/${props.currentId}`, props.post, {headers})
 
-            props.setBooks(response.data)
-            console.log("PUT response", response.data)
-        }
-        catch (error) {
-            console.log(error)
-        }
+            try {
+                let url = `http://localhost:3001/books/${props.currentId}`
+                let response = await axios.put(url, props.post, { headers: { authorization: `Bearer ${token}` } })
 
+                props.setBooks(response.data)
+                console.log("PUT response", response.data)
+            }
+            catch (error) {
+                console.log(error)
+            }
+
+        }
         props.setShowUpdate(false);
     }
 
