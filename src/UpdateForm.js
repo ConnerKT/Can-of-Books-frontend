@@ -26,7 +26,7 @@ export default function UpdateForm(props) {
 
 
             try {
-                let url = `http://localhost:3001/books/${props.currentId}`
+                let url = `https://can-of-books-server-rfcy.onrender.com/books/${props.currentId}`
                 let response = await axios.put(url, props.post, { headers: { authorization: `Bearer ${token}` } })
 
                 props.setBooks(response.data)
