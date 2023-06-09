@@ -10,7 +10,9 @@ root.render(
             domain="dev-swwedz5mied7hhq5.us.auth0.com"
             clientId="h3aEfwd4ekaEkf7n6PsR2mpQfJEVrkvt"
             authorizationParams={{
-                redirect_uri: window.location.origin
+                redirect_uri: window.location.origin,
+                audience:'http://localhost:3001',
+                scope:'openid profile email'
             }}
         >
             <App />

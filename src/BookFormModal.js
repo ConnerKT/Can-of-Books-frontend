@@ -1,39 +1,32 @@
 import React from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 
 function BookFormModal(props) {
-
-    function handleSubmit() {
-        props.setPost({
-            title: props.title,
-            description: props.description,
-            status: props.status
-        })
-        
-        //props.setSubmit(true)
-
-    }
-
+    const { isAuthenticated } = useAuth0();
+    
     function title(event) {
-        props.setTitle(event.target.value);
-        handleSubmit(); // Call handleSubmit after updating the state
+        props.setPost({ ...props.post, title: event.target.value });
     }
 
     function description(event) {
-        props.setDescription(event.target.value);
-        handleSubmit(); // Call handleSubmit after updating the state
+        props.setPost({ ...props.post, description: event.target.value });
     }
 
     function status(event) {
-        props.setStatus(event.target.value);
-        handleSubmit(); // Call handleSubmit after updating the state
-        console.log("status", props.status)
+        props.setPost({ ...props.post, status: event.target.value });
     }
-
-
+    function handleSubmit(event) {
+        event.preventDefault();
+        if (isAuthenticated) {
+            props.postBooks();
+        }
+        props.closeFunction(false);
+        console.log(props.post)
+    }
 
     return (
         <>
@@ -43,7 +36,7 @@ function BookFormModal(props) {
                     <Modal.Title>Add a Book</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form >
+                    <Form onSubmit={handleSubmit} >
                         <Form.Group className="mb-3" controlid="title">
                             <Form.Label >Title</Form.Label>
                             <Form.Control controlid='titleControl' type="text" placeholder="Enter A Book Title.." onChange={title} />
@@ -73,7 +66,7 @@ function BookFormModal(props) {
 
                             </Form.Select>
                         </Form.Group>
-                        <Button onClick={() => { props.postBooks(); props.closeFunction() }} variant="primary" >
+                        <Button variant="primary" type="submit">
                             Submit
                         </Button>
                     </Form>
