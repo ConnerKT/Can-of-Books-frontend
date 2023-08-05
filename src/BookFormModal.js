@@ -7,6 +7,7 @@ import Form from "react-bootstrap/Form";
 
 function BookFormModal(props) {
     const { isAuthenticated } = useAuth0();
+    
     function title(event) {
         props.setPost({ ...props.post, title: event.target.value });
     }

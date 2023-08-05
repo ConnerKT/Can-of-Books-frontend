@@ -18,7 +18,6 @@ function App() {
 
     return (
         <>
-
             <Router>
                 <Header style={{ boxShadow: '0 0 13px rgb(0, 0, 0)' }} />
                 <Routes>
@@ -39,7 +38,6 @@ function App() {
                     >
                     </Route>
                 </Routes>
-
                 <br></br>
                 <Footer />
             </Router>

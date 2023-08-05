@@ -11,7 +11,7 @@ export default function BookCarousel(props) {
         const token = await getAccessTokenSilently();
     
     
-        let url = `http://localhost:3001/books/${id}`
+        let url = `https://can-of-books-server-rfcy.onrender.com/books/${id}`
         await axios.delete(url, { headers: { authorization: `Bearer ${token}` } })
             .then(res => {
                 console.log("Delete response", res)

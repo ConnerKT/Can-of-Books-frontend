@@ -7,27 +7,15 @@ import UpdateForm from "./UpdateForm";
 import { useAuth0 } from "@auth0/auth0-react";
 
 function BestBooks() {
-    const { user, getAccessTokenSilently, isAuthenticated } = useAuth0();
+    const { getAccessTokenSilently } = useAuth0();
     const [books, setBooks] = useState([]);
     // Setting the state for our Post, so we can get it from a form and send it to our backend
-    const [submit, setSubmit] = useState(false)
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [status, setStatus] = useState('');
-
-    //... rest of your code
     const [post, setPost] = useState({
         title: '',
         description: '',
         status: '',
 
     })
-
-    //... rest of your code
-
-
-
-
     const [show, setShow] = useState(false);
 
     const [showUpdate, setShowUpdate] = useState(false);
@@ -39,92 +27,53 @@ function BestBooks() {
     const handleUpdateShow = () => setShowUpdate(true);
     //const handleUpdateClose = () => setShowUpdate(false);
 
-
-
     function formControl(event) {
         event.preventDefault();
         handleShow();
     }
 
-
     async function postBooks() {
-        //event.preventDefault()
-            const token = await getAccessTokenSilently();
-            console.log(token)
-          
-            try {
-                //console.log("accessToken",accessToken)
-                let url = 'http://localhost:3001/books'
-                let response = await axios.post(url, post,{ headers: { authorization: `Bearer ${token}`} })
+        const token = await getAccessTokenSilently();
 
-                // Handle the successful response here, if needed
-                setBooks([...books, response.data])
-                console.log(post)
-                console.log('Post request successful:', books);
+        try {
+            let url = 'https://can-of-books-server-rfcy.onrender.com/books'
+            let response = await axios.post(url, post, { headers: { authorization: `Bearer ${token}` } })
+            // Handle the successful response here, if needed
+            setBooks([...books, response.data])
+            console.log(post)
+            console.log('Post request successful:', books);
 
-            } catch (error) {
-
-
-                // Handle the error here
-                console.error('Error while making post request:', error);
-
-            }
-        
-    }
-
-    
-        async function fetchUser() {
-            if (isAuthenticated) {
-                try {
-                    const token = await getAccessTokenSilently();
-                    isAuthenticated && console.log(token)
-                    let url = "http://localhost:3001/test";
-                    
-                    axios.get(url, { headers:  { 
-                        authorization: `Bearer ${token}`
-                        
-                    } })
-                        .then((res) => {
-                            
-                            console.log(res.data);
-                        })
-                        .catch((err) => {
-                            console.error('Error fetching books:', err);
-                        });
-                } catch (err) {
-                    console.error('Error getting access token:', err);
-                }
-            }
+        } catch (error) {
+            // Handle the error here
+            console.error('Error while making post request:', error);
         }
-      
+    }
 
     useEffect(() => {
         async function fetchData() {
-           
-                try {
-                    const token = await getAccessTokenSilently();
-                    
-                    let url = "http://localhost:3001/books";
-                    
-                    axios.get(url, { headers: { 
+
+            try {
+                const token = await getAccessTokenSilently();
+
+                let url = "https://can-of-books-server-rfcy.onrender.com/books";
+
+                
+                axios.get(url, {
+                    headers: {
                         authorization: `Bearer ${token}`
-                        
-                    } })
-                        .then((res) => {
-                            setBooks(res.data);
-                            console.log(res.data);
-                        })
-                        .catch((err) => {
-                            console.error('Error fetching books:', err);
-                        });
-                } catch (err) {
-                    console.error('Error getting access token:', err);
-                }
+                    }
+                }).then((res) => {
+                    setBooks(res.data);
+                }).catch((err) => {
+                        console.error('Error fetching books:', err);
+                    });
+            } catch (err) {
+                console.error('Error getting access token:', err);
             }
-        
+        }
         fetchData();
     }, [getAccessTokenSilently]);
-    
+
     // TODO: Render all the books in a Carousel
 
     return (
@@ -153,16 +102,9 @@ function BestBooks() {
             )}
             <div>
                 <BookFormModal
+                    key={'BookFormModal'}
                     currentId={currentId}
                     postBooks={postBooks}
-                    setSubmit={setSubmit}
-                    submit={submit}
-                    title={title}
-                    description={description}
-                    status={status}
-                    setTitle={setTitle}
-                    setDescription={setDescription}
-                    setStatus={setStatus}
                     setPost={setPost}
                     post={post}
                     showFunction={handleShow}
@@ -170,16 +112,10 @@ function BestBooks() {
                     closeFunction={handleClose}
                 />
                 <UpdateForm
+                    key={'UpdateForm'}
                     post={post}
                     currentId={currentId}
                     setShowUpdate={setShowUpdate}
-                    setSubmit={setSubmit}
-                    title={title}
-                    description={description}
-                    status={status}
-                    setTitle={setTitle}
-                    setDescription={setDescription}
-                    setStatus={setStatus}
                     setPost={setPost}
                     showFunction={handleUpdateShow}
                     showUpdate={showUpdate}
@@ -187,7 +123,7 @@ function BestBooks() {
                 />
                 <br></br>
                 <Button style={{ boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px', display: 'flex', justifyContent: 'center', margin: '0 auto' }} onClick={formControl} variant="outline-primary">Add Book!</Button>
-                <button onClick={fetchUser}></button>
+
             </div>
         </>
     );
