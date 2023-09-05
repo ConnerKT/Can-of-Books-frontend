@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import logo from './assets/logo.png'
 import { useAuth0 } from "@auth0/auth0-react";
 
-import Profile from './Profile';
 export default function Header() {
     const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
 
@@ -32,7 +31,7 @@ export default function Header() {
                     </NavItem>
 
                     {isAuthenticated === false ? <Button onClick={() => { loginWithRedirect() }}>Login</Button> :
-                        <Button onClick={() => { logout() }}>Logout</Button>
+                        <Button onClick={() => { logout({ returnTo: window.location.origin }) }}>Logout</Button>
                     }
 
                 </Nav>
